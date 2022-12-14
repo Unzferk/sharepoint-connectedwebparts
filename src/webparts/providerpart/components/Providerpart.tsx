@@ -31,38 +31,60 @@ let departmentListColumns = [
 ];
 
 const Providerpart: React.FC<IProviderpartProps> = (props) => {
-  let _selection: Selection;
+  //let _selection: Selection;
 
   //const [status, setStatus] = React.useState<string>("Ready");
   const [departmentListItems, setDepartmentListItems] = React.useState<
     IDepartment[]
   >([]);
 
-  const [departmentItem, setDepartmentItem] = React.useState<IDepartment>({
+  /*const [departmentItem, setDepartmentItem] = React.useState<IDepartment>({
     Id: 0,
     Title: "",
-  });
+  });*/
 
   //const [mySelection, setMySelection] = React.useState();
+  const [selectedItem, setSelectedItem] = React.useState<
+    IDepartment | undefined
+  >(undefined);
 
-  const onItemsSelectedChanged = () => {
+  const selection = new Selection({
+    onSelectionChanged: () => {
+      setSelectedItem(selection.getSelection()[0] as IDepartment);
+    },
+  });
+
+  /*const onItemsSelectedChanged = () => {
     // props.onDepartmentSelected(_selection.getSelection()[0] as IDepartment);
     // setDepartmentItem(_selection.getSelection()[0] as IDepartment);
     console.log("DEPT1 " + JSON.stringify(departmentItem));
     setDepartmentItem(_selection.getSelection()[0] as IDepartment);
     props.onDepartmentSelected(departmentItem);
     console.log("DEPT2 " + JSON.stringify(departmentItem));
-  };
+  };*/
 
   React.useEffect(() => {
     getListItems();
   }, []);
 
   React.useEffect(() => {
-    _selection = new Selection({
-      onSelectionChanged: onItemsSelectedChanged,
-    });
-  }, [_selection]);
+    // Do something with the selected item
+    console.log(selectedItem);
+    if (selectedItem) {
+      console.log(selectedItem.Id);
+      console.log(selectedItem.Title);
+      props.onDepartmentSelected(selectedItem);
+      //console.log(departmentItem.Id);
+      // console.log(departmentItem.Title);
+    }
+
+    /*if (selectedItem) {
+      setDepartmentItem(selectedItem as IDepartment);
+      console.log("RESULT: " + JSON.stringify(departmentItem));
+      console.log(departmentItem.Id);
+      console.log(departmentItem.Title);
+    }*/
+  }, [selectedItem]);
 
   const getListItems = () => {
     props.context.spHttpClient
@@ -86,7 +108,7 @@ const Providerpart: React.FC<IProviderpartProps> = (props) => {
         selectionMode={SelectionMode.single}
         layoutMode={DetailsListLayoutMode.fixedColumns}
         compact={true}
-        selection={_selection}
+        selection={selection}
       />
     </section>
   );
