@@ -9,10 +9,19 @@
           "manifest": "./src/webparts/providerpart/ProviderpartWebPart.manifest.json"
         }
       ]
+    },
+    "consumer-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/consumer/ConsumerWebPart.js",
+          "manifest": "./src/webparts/consumer/ConsumerWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "ProviderpartWebPartStrings": "lib/webparts/providerpart/loc/{locale}.js"
+    "ProviderpartWebPartStrings": "lib/webparts/providerpart/loc/{locale}.js",
+    "ConsumerWebPartStrings": "lib/webparts/consumer/loc/{locale}.js"
   }
 }
